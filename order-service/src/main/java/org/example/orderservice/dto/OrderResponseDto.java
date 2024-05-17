@@ -10,9 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderCreateDto {
+public class OrderResponseDto {
+    private Long id;
     private UserResponseDto user;
     private List<OrderProductDto> products;
     private int total;
+    private LocalDateTime orderDate;
     private String note;
 }
