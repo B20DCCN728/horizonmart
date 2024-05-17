@@ -1,6 +1,5 @@
 package org.example.orderservice.service;
 
-import org.example.orderservice.RestTemplateConfig;
 import org.example.orderservice.dto.*;
 import org.example.orderservice.model.Order;
 import org.example.orderservice.model.OrderProduct;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
                                     orderProduct -> {
                                         OrderProductDto orderProductDto = new OrderProductDto();
                                         orderProductDto.setId(orderProduct.getId());
+                                        orderProductDto.setSellingPrice(orderProduct.getSellingPrice());
                                         orderProductDto.setQuantity(orderProduct.getQuantity());
                                         ProductResponseDto productResponseDto = new ProductResponseDto();
                                         productResponseDto.setId(orderProduct.getProductId());
@@ -71,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
                                 orderProduct -> {
                                     OrderProductDto orderProductDto = new OrderProductDto();
                                     orderProductDto.setId(orderProduct.getId());
+                                    orderProductDto.setSellingPrice(orderProduct.getSellingPrice());
                                     orderProductDto.setQuantity(orderProduct.getQuantity());
                                     ProductResponseDto productResponseDto = new ProductResponseDto();
                                     productResponseDto.setId(orderProduct.getProductId());
@@ -88,7 +90,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean create(OrderCreateDto orderCreateDto) {
-        return null;
+        Order order = new Order();
+        order.setUserId(orderCreateDto.getUser().getID());
+        order.setTotal(orderCreateDto.getTotal());
+        order.setOrderDate(LocalDateTime.now());
+        order.setNote(orderCreateDto.getNote());
+        order.setOrderProducts(orderCreateDto.getProducts()
+                .stream()
+                .map(
+                    orderProductDto -> {
+                        OrderProduct orderProduct = new OrderProduct();
+                        orderProduct.setSellingPrice(orderProductDto.getSellingPrice());
+                        orderProduct.setQuantity(orderProductDto.getQuantity());
+                        orderProduct.setProductId(orderProductDto.getProduct().getId());
+                        orderProduct.setOrder(order);
+                        return orderProduct;
+                    }
+                ).toList()
+        );
+        orderRepository.save(order);
+        return true;
     }
 
     // Fetch product by ID

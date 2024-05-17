@@ -1,4 +1,4 @@
-package org.example.orderservice;
+package org.example.orderservice.configuration;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
