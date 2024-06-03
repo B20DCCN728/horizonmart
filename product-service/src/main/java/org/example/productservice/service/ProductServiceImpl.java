@@ -1,6 +1,7 @@
 package org.example.productservice.service;
 
 import jakarta.validation.constraints.NotNull;
+import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
 import org.example.productservice.model.Category;
@@ -64,6 +65,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id)
                 .map(
                         product -> {
+                            CategoryResponseDto category = new CategoryResponseDto(
+                                    product.getCategory().getId(),
+                                    product.getCategory().getName(),
+                                    product.getCategory().getDescription()
+                            );
                             String supplierURL = "http://supplier-service/supplier/get/" + product.getSupplierID();
                             SupplierResponseDto supplier = restTemplate.getForObject(supplierURL, SupplierResponseDto.class);
                             return new ProductResponseDto(
@@ -74,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
                                     product.getCreatedDate(),
                                     product.getImagePath(),
                                     product.getDescription(),
-                                    product.getCategory(),
+                                    category,
                                     supplier
                             );
                         }
@@ -87,6 +93,11 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(
                         product -> {
+                            CategoryResponseDto category = new CategoryResponseDto(
+                                    product.getCategory().getId(),
+                                    product.getCategory().getName(),
+                                    product.getCategory().getDescription()
+                            );
                             String supplierURL = "http://supplier-service/supplier/get/" + product.getSupplierID();
                             SupplierResponseDto supplier = restTemplate.getForObject(supplierURL, SupplierResponseDto.class);
                             return new ProductResponseDto(
@@ -97,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
                                     product.getCreatedDate(),
                                     product.getImagePath(),
                                     product.getDescription(),
-                                    product.getCategory(),
+                                    category,
                                     supplier
                             );
                         }
@@ -109,6 +120,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll()
                 .stream()
                 .map(product -> {
+                    CategoryResponseDto category = new CategoryResponseDto(
+                            product.getCategory().getId(),
+                            product.getCategory().getName(),
+                            product.getCategory().getDescription()
+                    );
                     String supplierURL = "http://supplier-service/supplier/get/" + product.getSupplierID();
                     SupplierResponseDto supplier = restTemplate.getForObject(supplierURL, SupplierResponseDto.class);
                     return new ProductResponseDto(
@@ -119,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
                             product.getCreatedDate(),
                             product.getImagePath(),
                             product.getDescription(),
-                            product.getCategory(),
+                            category,
                             supplier
                     );
                 }).toList();

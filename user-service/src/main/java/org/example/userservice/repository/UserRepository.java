@@ -10,5 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByPhoneNumber(String phoneNumber);
     Boolean existsUsersByPhoneNumber(String phoneNumber);
-    List<User> findAllByFullNameContaining(String keyword);
+    List<User> findAllByPhoneNumberContaining(String phoneNumber);
 }

@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> search(String keyword) {
-        return userRepository.findAllByFullNameContaining(keyword).stream()
+    public List<UserResponseDto> search(String phoneNumber) {
+        return userRepository.findAllByPhoneNumberContaining(phoneNumber).stream()
                 .map(
                         user -> new UserResponseDto(
                                 user.getID(),
