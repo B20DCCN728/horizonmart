@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.productservice.model.Category;
 import org.example.productservice.service_server.SupplierResponseDto;
 
 import java.time.LocalDateTime;
@@ -21,6 +20,6 @@ public class ProductResponseDto {
     private LocalDateTime createdDate;
     private String imagePath;
     private String description;
-    private Category category;
+    private CategoryResponseDto category;
     private SupplierResponseDto supplier;
 }

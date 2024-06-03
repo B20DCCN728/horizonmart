@@ -54,6 +54,7 @@ public class ProductController {
     // Create new product
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Boolean create(@RequestBody ProductCreateDto product) {
+        System.out.println(product);
         // Check Unsupported Media Type (415) error when sending a POST request with JSON data
         // System.out.println(product);
         // Link problem: https://www.reddit.com/r/javahelp/comments/1383yqv/why_is_consumes_not_required_in_the_postmapping/

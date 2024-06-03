@@ -56,4 +56,17 @@ public class UserServiceImpl implements UserService {
                         )
                 ).toList();
     }
+
+    @Override
+    public List<UserResponseDto> search(String keyword) {
+        return userRepository.findAllByFullNameContaining(keyword).stream()
+                .map(
+                        user -> new UserResponseDto(
+                                user.getID(),
+                                user.getFullName(),
+                                user.getPhoneNumber(),
+                                user.getNote()
+                        )
+                ).toList();
+    }
 }

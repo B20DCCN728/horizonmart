@@ -12,4 +12,5 @@ public interface UserService {
     Boolean create(UserCreateDto user);
     Optional<UserResponseDto> get(Long id);
     List<UserResponseDto> getAll();
+    List<UserResponseDto> search(String keyword);
 }

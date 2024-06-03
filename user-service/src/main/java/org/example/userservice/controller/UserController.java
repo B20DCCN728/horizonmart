@@ -15,7 +15,8 @@ public class UserController {
     private UserService userService;
     // Add a new method to the UserController class that create a new User object.
     @PostMapping("/create")
-    public Boolean create(@RequestBody UserCreateDto user) {
+    public Boolean create(@RequestBody UserCreateDto user) throws InterruptedException {
+        Thread.sleep(1000);
         return userService.create(user);
     }
     // Add a new method to the UserController class that returns all User objects.
