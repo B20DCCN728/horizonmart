@@ -142,6 +142,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponseDto> getProductByCategory(CategoryResponseDto category) {
+        Category categoryEntity = new Category();
+        categoryEntity.setId(category.getId());
+        categoryEntity.setName(category.getName());
+        return productRepository.findAllByCategory(categoryEntity)
+                .stream()
+                .map(
+                        product -> {
+                            CategoryResponseDto categoryDto = new CategoryResponseDto(
+                                    product.getCategory().getId(),
+                                    product.getCategory().getName(),
+                                    product.getCategory().getDescription()
+                            );
+                            String supplierURL = "http://supplier-service/supplier/get/" + product.getSupplierID();
+                            SupplierResponseDto supplier = restTemplate.getForObject(supplierURL, SupplierResponseDto.class);
+                            return new ProductResponseDto(
+                                    product.getId(),
+                                    product.getName(),
+                                    product.getPurchasePrice(),
+                                    product.getSellingPrice(),
+                                    product.getCreatedDate(),
+                                    product.getImagePath(),
+                                    product.getDescription(),
+                                    categoryDto,
+                                    supplier
+                            );
+                        }
+                ).toList();
+    }
+
+    @Override
     public Long getTotalRevenue() {
         return null;
     }
@@ -153,7 +184,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long getTotalProductSold() {
-        return null;
+
     }
 
     @Override

@@ -2,11 +2,13 @@ package org.example.orderservice.controller;
 
 import org.example.orderservice.dto.OrderCreateDto;
 import org.example.orderservice.dto.OrderResponseDto;
+import org.example.orderservice.dto.ProductStatDto;
 import org.example.orderservice.model.Order;
 import org.example.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,5 +33,13 @@ public class OrderController {
     @PostMapping("/create")
     public Boolean create(@RequestBody OrderCreateDto orderCreateDto) {
         return orderService.create(orderCreateDto);
+    }
+
+    // Get total revenue
+    @GetMapping("/get-total-revenue")
+    public ProductStatDto getTotalRevenue() {
+        LocalDateTime start = LocalDateTime.now().minusDays(30);
+        LocalDateTime end = LocalDateTime.now();
+        return orderService.getProductStat(start, end);
     }
 }

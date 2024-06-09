@@ -1,5 +1,6 @@
 package org.example.productservice.controller;
 
+import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
 import org.example.productservice.model.Product;
@@ -36,6 +37,12 @@ public class ProductController {
     @GetMapping("/get")
     public List<ProductResponseDto> getAll() {
         return productService.getAll();
+    }
+
+    // Get all products by category
+    @PostMapping("/get-by-category")
+    public List<ProductResponseDto> getProductByCategory(@RequestBody CategoryResponseDto category) {
+        return productService.getProductByCategory(category);
     }
 
 

@@ -1,5 +1,6 @@
 package org.example.productservice.service;
 
+import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
 import org.example.productservice.model.Product;
@@ -17,6 +18,7 @@ public interface ProductService {
     Optional<ProductResponseDto> get(Long id);
     List<ProductResponseDto> search(String key);
     List<ProductResponseDto> getAll();
+    List<ProductResponseDto> getProductByCategory(CategoryResponseDto category);
     Long getTotalRevenue();
     Long getProductProfit();
     Long getTotalProductSold();

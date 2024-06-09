@@ -112,6 +112,14 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    @Override
+    public ProductStatDto getProductStat(LocalDateTime start, LocalDateTime end) {
+        ProductStatDto productStatDto = new ProductStatDto();
+        productStatDto.setTotalRevenue(orderRepository.calculateTotalRevenue(start, end));
+        productStatDto.setQuantitySold(orderRepository.countProductSold(start, end));
+        return productStatDto;
+    }
+
     // Fetch product by ID
     private ProductResponseDto fetchProduct(ProductResponseDto productResponseDto) {
         return restTemplate.getForObject(
