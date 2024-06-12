@@ -27,7 +27,6 @@ public class UserController {
     // Add a new method to the UserController class that returns a User object by its ID.
     @GetMapping("/get/{id}")
     public UserResponseDto get(@PathVariable Long id) throws InterruptedException {
-        Thread.sleep(1000);
         return userService.get(id).orElse(null);
     }
     // Add a new method to the UserController class that searches for User objects by a keyword.

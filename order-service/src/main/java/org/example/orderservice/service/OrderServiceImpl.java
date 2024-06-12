@@ -5,6 +5,7 @@ import org.example.orderservice.model.Order;
 import org.example.orderservice.model.OrderProduct;
 import org.example.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -154,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponseDto> getTop10HighestOrderValue() {
-        return orderRepository.getTop10HighestOrderValue()
+        return orderRepository.getTop10HighestOrderValue(PageRequest.of(0, 10))
                 .stream()
                 .map(order -> {
                     OrderResponseDto orderResponseDto = new OrderResponseDto();
@@ -166,6 +167,7 @@ public class OrderServiceImpl implements OrderService {
                             .stream()
                             .map(
                                 orderProduct -> {
+                                    System.out.println(order.getId());
                                     OrderProductDto orderProductDto = new OrderProductDto();
                                     orderProductDto.setId(orderProduct.getId());
                                     orderProductDto.setSellingPrice(orderProduct.getSellingPrice());
