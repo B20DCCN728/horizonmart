@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private CategoryService categoryService;
-
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Override
     public Boolean create(ProductCreateDto product) {
         if (productRepository.existsByName(product.getName()))
@@ -174,8 +175,10 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public ProductStatDto getProductStat(LocalDateTime from, LocalDateTime to) {
-        String orderURL = "http://order-service/order/get-total-revenue" + from + "/" + to;
-        ProductStatDto productStatDto = restTemplate.getForObject(orderURL, ProductStatDto.class);
-        return productStatDto;
+        String orderURL = "http://order-service/order/get-total-revenue/" +
+                            from.format(dateTimeFormatter) +
+                            "/" +
+                            to.format(dateTimeFormatter);
+        return restTemplate.getForObject(orderURL, ProductStatDto.class);
     }
 }

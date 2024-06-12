@@ -3,6 +3,7 @@ package org.example.productservice.controller;
 import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
+import org.example.productservice.dto.ProductStatDto;
 import org.example.productservice.model.Product;
 import org.example.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-
     @Autowired
     private ProductService productService;
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     // Test api
     @GetMapping("/all")
@@ -80,6 +83,14 @@ public class ProductController {
     @DeleteMapping("/delete")
     public Boolean delete(@RequestBody Product product) {
         return productService.delete(product);
+    }
+
+    // Product statistics
+    @GetMapping("/get-stat/{f}/{t}")
+    public ProductStatDto getProductStat(@PathVariable String f, @PathVariable String t) {
+        LocalDateTime from = LocalDateTime.parse(f, dateTimeFormatter);
+        LocalDateTime to = LocalDateTime.parse(t, dateTimeFormatter);
+        return productService.getProductStat(from, to);
     }
 
     // Allow requests from specific origin

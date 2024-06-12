@@ -45,7 +45,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     )
     Long getTop1StProductSold(LocalDateTime start, LocalDateTime end);
     @Query(
-            "SELECT o FROM Order o JOIN o.orderProducts op GROUP BY o ORDER BY SUM(op.quantity * op.sellingPrice) DESC"
+            "SELECT o FROM Order o " +
+                    "JOIN o.orderProducts op " +
+                    "GROUP BY o " +
+                    "ORDER BY SUM(op.quantity * op.sellingPrice) DESC"
     )
     Page<Order> getTop10HighestOrderValue(Pageable pageable);
 }
