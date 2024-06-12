@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
+import org.example.productservice.dto.ProductStatDto;
 import org.example.productservice.model.Category;
 import org.example.productservice.model.Product;
 import org.example.productservice.repository.ProductRepository;
@@ -171,34 +172,9 @@ public class ProductServiceImpl implements ProductService {
                         }
                 ).toList();
     }
-
     @Override
-    public Long getTotalRevenue() {
-        return null;
-    }
-
-    @Override
-    public Long getProductProfit() {
-        return null;
-    }
-
-    @Override
-    public Long getTotalProductSold() {
-
-    }
-
-    @Override
-    public List<Product> getProductRevenue() {
-        return null;
-    }
-
-    @Override
-    public Long getTotalRevenueByDate(LocalDateTime start, LocalDateTime end) {
-        return null;
-    }
-
-    @Override
-    public Optional<Product> getMostRevenueProduct() {
-        return null;
+    public ProductStatDto getProductStat(LocalDateTime from, LocalDateTime to) {
+        String orderURL = "http://order-service/order/get-total-revenue" + from + "/" + to;
+        ProductStatDto productStatDto = restTemplate.getForObject(orderURL, ProductStatDto.class);
     }
 }

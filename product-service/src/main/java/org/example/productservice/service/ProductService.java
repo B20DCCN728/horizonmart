@@ -3,6 +3,7 @@ package org.example.productservice.service;
 import org.example.productservice.dto.CategoryResponseDto;
 import org.example.productservice.dto.ProductCreateDto;
 import org.example.productservice.dto.ProductResponseDto;
+import org.example.productservice.dto.ProductStatDto;
 import org.example.productservice.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,5 @@ public interface ProductService {
     List<ProductResponseDto> search(String key);
     List<ProductResponseDto> getAll();
     List<ProductResponseDto> getProductByCategory(CategoryResponseDto category);
-    Long getTotalRevenue();
-    Long getProductProfit();
-    Long getTotalProductSold();
-    List<Product> getProductRevenue();
-    Long getTotalRevenueByDate(LocalDateTime start, LocalDateTime end);
-    Optional<Product> getMostRevenueProduct();
+    ProductStatDto getProductStat(LocalDateTime from, LocalDateTime to);
 }

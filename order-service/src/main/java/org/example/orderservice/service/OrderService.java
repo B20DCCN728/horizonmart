@@ -15,4 +15,5 @@ public interface OrderService {
     List<OrderResponseDto> getAll();
     Boolean create(OrderCreateDto orderCreateDto);
     ProductStatDto getProductStat(LocalDateTime start, LocalDateTime end);
+    List<OrderResponseDto> getOrdersByDate(LocalDateTime start, LocalDateTime end);
 }

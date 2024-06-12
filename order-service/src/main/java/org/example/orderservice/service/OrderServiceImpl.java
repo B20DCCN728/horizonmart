@@ -120,6 +120,38 @@ public class OrderServiceImpl implements OrderService {
         return productStatDto;
     }
 
+    @Override
+    public List<OrderResponseDto> getOrdersByDate(LocalDateTime start, LocalDateTime end) {
+        return orderRepository.findByOrderDateBetween(start, end)
+                .stream()
+                .map(order -> {
+                    OrderResponseDto orderResponseDto = new OrderResponseDto();
+                    orderResponseDto.setId(order.getId());
+                    UserResponseDto userResponseDto = new UserResponseDto();
+                    userResponseDto.setID(order.getUserId());
+                    orderResponseDto.setUser(fetchUser(userResponseDto));
+                    orderResponseDto.setProducts(order.getOrderProducts()
+                            .stream()
+                            .map(
+                                orderProduct -> {
+                                    OrderProductDto orderProductDto = new OrderProductDto();
+                                    orderProductDto.setId(orderProduct.getId());
+                                    orderProductDto.setSellingPrice(orderProduct.getSellingPrice());
+                                    orderProductDto.setQuantity(orderProduct.getQuantity());
+                                    ProductResponseDto productResponseDto = new ProductResponseDto();
+                                    productResponseDto.setId(orderProduct.getProductId());
+                                    orderProductDto.setProduct(fetchProduct(productResponseDto));
+                                    return orderProductDto;
+                                }
+                            ).toList()
+                    );
+                    orderResponseDto.setTotal(order.getTotal());
+                    orderResponseDto.setOrderDate(order.getOrderDate());
+                    orderResponseDto.setNote(order.getNote());
+                    return orderResponseDto;
+                }).toList();
+    }
+
     // Fetch product by ID
     private ProductResponseDto fetchProduct(ProductResponseDto productResponseDto) {
         return restTemplate.getForObject(
