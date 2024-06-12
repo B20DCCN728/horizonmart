@@ -176,5 +176,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductStatDto getProductStat(LocalDateTime from, LocalDateTime to) {
         String orderURL = "http://order-service/order/get-total-revenue" + from + "/" + to;
         ProductStatDto productStatDto = restTemplate.getForObject(orderURL, ProductStatDto.class);
+        return productStatDto;
     }
 }

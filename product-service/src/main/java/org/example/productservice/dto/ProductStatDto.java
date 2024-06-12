@@ -14,5 +14,4 @@ public class ProductStatDto {
     private int totalRevenue;
     private int totalProfit;
     private int quantitySold;
-    private List<Order>
 }

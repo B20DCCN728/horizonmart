@@ -45,4 +45,10 @@ public class OrderController {
         LocalDateTime to = LocalDateTime.parse(t, dateTimeFormatter);
         return orderService.getProductStat(from, to);
     }
+
+    // Get top 10 highest order value
+    @GetMapping("/get-top-10-highest-order-value")
+    public List<OrderResponseDto> getTop10HighestOrderValue() {
+        return orderService.getTop10HighestOrderValue();
+    }
 }
