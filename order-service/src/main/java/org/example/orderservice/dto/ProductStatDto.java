@@ -10,8 +10,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductStatDto {
-    private int totalRevenue;
-    private int totalProfit;
-    private int quantitySold;
+    private long totalRevenue;
+    private long totalProfit;
+    private long quantitySold;
     List<OrderResponseDto> orders;
+    List<ProductResponseDto> products;
 }

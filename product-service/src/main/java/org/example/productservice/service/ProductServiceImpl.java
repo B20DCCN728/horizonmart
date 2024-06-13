@@ -1,10 +1,7 @@
 package org.example.productservice.service;
 
 import jakarta.validation.constraints.NotNull;
-import org.example.productservice.dto.CategoryResponseDto;
-import org.example.productservice.dto.ProductCreateDto;
-import org.example.productservice.dto.ProductResponseDto;
-import org.example.productservice.dto.ProductStatDto;
+import org.example.productservice.dto.*;
 import org.example.productservice.model.Category;
 import org.example.productservice.model.Product;
 import org.example.productservice.repository.ProductRepository;

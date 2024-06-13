@@ -119,6 +119,16 @@ public class OrderServiceImpl implements OrderService {
         productStatDto.setTotalRevenue(orderRepository.calculateTotalRevenue(start, end));
         productStatDto.setQuantitySold(orderRepository.countProductSold(start, end));
         productStatDto.setOrders(getOrdersByDate(start, end));
+        long total = 0;
+        List<ProductResponseDto> products = new ArrayList<>();
+        for (OrderResponseDto order : productStatDto.getOrders()) {
+            for (OrderProductDto orderProduct : order.getProducts()) {
+                products.add(orderProduct.getProduct());
+                total += orderProduct.getProduct().getPurchasePrice() * orderProduct.getQuantity();
+            }
+        }
+        productStatDto.setProducts(products);
+        productStatDto.setTotalProfit(productStatDto.getTotalRevenue() - total);
         return productStatDto;
     }
 

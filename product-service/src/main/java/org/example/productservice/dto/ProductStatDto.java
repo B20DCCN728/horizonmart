@@ -1,7 +1,6 @@
 package org.example.productservice.dto;
 
 import lombok.*;
-import org.example.productservice.service_server.Order;
 
 import java.util.List;
 
@@ -11,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductStatDto {
-    private int totalRevenue;
-    private int totalProfit;
-    private int quantitySold;
-    List<Order> orders;
+    private long totalRevenue;
+    private long totalProfit;
+    private long quantitySold;
+    List<OrderResponseDto> orders;
 }
