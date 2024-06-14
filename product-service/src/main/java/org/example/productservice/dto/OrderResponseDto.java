@@ -14,7 +14,7 @@ public class OrderResponseDto {
     private Long id;
     private UserResponseDto user;
     private List<OrderProductDto> products;
-    private int total;
+    private Long total;
     private LocalDateTime orderDate;
     private String note;
 }

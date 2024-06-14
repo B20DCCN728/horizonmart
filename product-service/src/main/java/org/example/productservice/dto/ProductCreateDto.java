@@ -15,6 +15,7 @@ public class ProductCreateDto {
     private CategoryResponseDto category;
 
     private String name;
+    private Long quantity;
     private Long purchasePrice;
     private Long sellingPrice;
     private LocalDateTime createdDate;

@@ -88,6 +88,8 @@ public class ProductController {
     // Product statistics
     @GetMapping("/get-stat/{f}/{t}")
     public ProductStatDto getProductStat(@PathVariable String f, @PathVariable String t) {
+        System.out.println(f);
+        System.out.println(t);
         LocalDateTime from = LocalDateTime.parse(f, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(t, dateTimeFormatter);
         return productService.getProductStat(from, to);

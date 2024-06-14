@@ -28,6 +28,8 @@ public class Product implements Serializable {
     private Category category;
     @Column(name = "Name")
     private String name;
+    @Column(name = "Quantity")
+    private Long quantity;
     @Column(name = "PurchasePrice")
     private Long purchasePrice;
     @Column(name = "SellingPrice")

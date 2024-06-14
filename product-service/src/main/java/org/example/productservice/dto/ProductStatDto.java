@@ -14,4 +14,6 @@ public class ProductStatDto {
     private long totalProfit;
     private long quantitySold;
     List<OrderResponseDto> orders;
+    List<ProductResponseDto> products;
+    List<ProductStatDetail> productStatDetails;
 }

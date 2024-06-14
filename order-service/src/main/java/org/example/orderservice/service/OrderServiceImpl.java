@@ -12,7 +12,9 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -129,6 +131,7 @@ public class OrderServiceImpl implements OrderService {
         }
         productStatDto.setProducts(products);
         productStatDto.setTotalProfit(productStatDto.getTotalRevenue() - total);
+        System.out.println(productStatDto);
         return productStatDto;
     }
 

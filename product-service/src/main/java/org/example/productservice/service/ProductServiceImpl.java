@@ -12,7 +12,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -74,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
                             return new ProductResponseDto(
                                     product.getId(),
                                     product.getName(),
+                                    product.getQuantity(),
                                     product.getPurchasePrice(),
                                     product.getSellingPrice(),
                                     product.getCreatedDate(),
@@ -102,6 +105,7 @@ public class ProductServiceImpl implements ProductService {
                             return new ProductResponseDto(
                                     product.getId(),
                                     product.getName(),
+                                    product.getQuantity(),
                                     product.getPurchasePrice(),
                                     product.getSellingPrice(),
                                     product.getCreatedDate(),
@@ -126,9 +130,11 @@ public class ProductServiceImpl implements ProductService {
                     );
                     String supplierURL = "http://supplier-service/supplier/get/" + product.getSupplierID();
                     SupplierResponseDto supplier = restTemplate.getForObject(supplierURL, SupplierResponseDto.class);
+                    System.out.println(product.getPurchasePrice());
                     return new ProductResponseDto(
                             product.getId(),
                             product.getName(),
+                            product.getQuantity(),
                             product.getPurchasePrice(),
                             product.getSellingPrice(),
                             product.getCreatedDate(),
@@ -159,6 +165,7 @@ public class ProductServiceImpl implements ProductService {
                             return new ProductResponseDto(
                                     product.getId(),
                                     product.getName(),
+                                    product.getQuantity(),
                                     product.getPurchasePrice(),
                                     product.getSellingPrice(),
                                     product.getCreatedDate(),
@@ -176,6 +183,38 @@ public class ProductServiceImpl implements ProductService {
                             from.format(dateTimeFormatter) +
                             "/" +
                             to.format(dateTimeFormatter);
-        return restTemplate.getForObject(orderURL, ProductStatDto.class);
+        Map<Long, ProductStatDetail> productStatDetailMap = new HashMap<>();
+        ProductStatDto productStatDto = restTemplate.getForObject(orderURL, ProductStatDto.class);
+        assert productStatDto != null;
+        for(OrderResponseDto order : productStatDto.getOrders()) {
+            for(OrderProductDto orderProduct : order.getProducts()) {
+                ProductResponseDto product = orderProduct.getProduct();
+                System.out.println(product.getName());
+                ProductStatDetail productStatDetail = productStatDetailMap.get(product.getId());
+                if(productStatDetail == null) {
+                    productStatDetail = new ProductStatDetail(
+                            product.getId(),
+                            product.getName(),
+                            product.getPurchasePrice(),
+                            product.getSellingPrice(),
+                            product.getQuantity(),
+                            product.getCreatedDate(),
+                            product.getImagePath(),
+                            product.getDescription(),
+                            product.getCategory(),
+                            product.getSupplier(),
+                            orderProduct.getQuantity() * product.getSellingPrice(),
+                            orderProduct.getQuantity() * (product.getSellingPrice() - product.getPurchasePrice()),
+                            orderProduct.getQuantity()
+                    );
+                    productStatDetailMap.put(product.getId(), productStatDetail);
+                }
+                productStatDetail.setTotalRevenue(productStatDetail.getTotalRevenue() + orderProduct.getQuantity() * product.getSellingPrice());
+                productStatDetail.setTotalProfit(productStatDetail.getTotalProfit() + orderProduct.getQuantity() * (product.getSellingPrice() - product.getPurchasePrice()));
+                productStatDetail.setQuantitySold(productStatDetail.getQuantitySold() + orderProduct.getQuantity());
+            }
+        }
+        productStatDto.setProductStatDetails(productStatDetailMap.values().stream().toList());
+        return productStatDto;
     }
 }

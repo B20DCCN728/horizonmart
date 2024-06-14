@@ -21,9 +21,9 @@ public class OrderProduct {
     @Column(name = "ProductID")
     private Long productId;
     @Column(name = "Quantity")
-    private int quantity;
+    private Long quantity;
     @Column(name = "SellingPrice")
-    private int sellingPrice;
+    private Long sellingPrice;
 
     @ManyToOne
     @JoinColumn(name = "OrderID", referencedColumnName = "ID")

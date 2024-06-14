@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ProductResponseDto {
     private Long id;
     private String name;
+    private Long quantity;
     private Long purchasePrice;
     private Long sellingPrice;
     private LocalDateTime createdDate;

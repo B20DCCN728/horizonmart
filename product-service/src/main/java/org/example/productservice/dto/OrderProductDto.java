@@ -10,6 +10,6 @@ import lombok.*;
 public class OrderProductDto {
     private Long id;
     private ProductResponseDto product;
-    private int quantity;
-    private int sellingPrice;
+    private Long quantity;
+    private Long sellingPrice;
 }
