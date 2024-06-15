@@ -35,9 +35,9 @@ public class ProductStatDetail extends ProductResponseDto {
         super(
                 id,
                 name,
+                quantity,
                 purchasePrice,
                 sellingPrice,
-                quantity,
                 createdDate,
                 imagePath,
                 description,

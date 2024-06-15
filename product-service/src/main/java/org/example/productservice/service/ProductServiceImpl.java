@@ -199,9 +199,9 @@ public class ProductServiceImpl implements ProductService {
                     productStatDetail = new ProductStatDetail(
                             product.getId(),
                             product.getName(),
+                            product.getQuantity(),
                             product.getPurchasePrice(),
                             product.getSellingPrice(),
-                            product.getQuantity(),
                             product.getCreatedDate(),
                             product.getImagePath(),
                             product.getDescription(),

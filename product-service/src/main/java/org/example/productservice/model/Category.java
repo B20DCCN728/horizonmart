@@ -25,5 +25,6 @@ public class Category {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
+    @ToString.Exclude
     private List<Product> products;
 }
