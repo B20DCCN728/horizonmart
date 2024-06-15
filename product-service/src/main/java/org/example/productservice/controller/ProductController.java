@@ -48,7 +48,6 @@ public class ProductController {
         return productService.getProductByCategory(category);
     }
 
-
     // Get specific product by id
     @GetMapping("/get/{id}")
     public ProductResponseDto getProduct(@PathVariable Long id) {
@@ -87,11 +86,12 @@ public class ProductController {
 
     // Product statistics
     @GetMapping("/get-stat/{f}/{t}")
-    public ProductStatDto getProductStat(@PathVariable String f, @PathVariable String t) {
+    public ProductStatDto getProductStat(@PathVariable String f, @PathVariable String t) throws InterruptedException {
         System.out.println(f);
         System.out.println(t);
         LocalDateTime from = LocalDateTime.parse(f, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(t, dateTimeFormatter);
+        Thread.sleep(1000);
         return productService.getProductStat(from, to);
     }
 

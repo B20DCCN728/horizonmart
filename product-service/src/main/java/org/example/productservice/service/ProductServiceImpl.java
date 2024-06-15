@@ -26,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryService categoryService;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @Override
     public Boolean create(ProductCreateDto product) {
         if (productRepository.existsByName(product.getName()))
@@ -179,10 +180,12 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public ProductStatDto getProductStat(LocalDateTime from, LocalDateTime to) {
+        // URL to order-service
         String orderURL = "http://order-service/order/get-total-revenue/" +
                             from.format(dateTimeFormatter) +
                             "/" +
                             to.format(dateTimeFormatter);
+        // Map to store productStatDetail
         Map<Long, ProductStatDetail> productStatDetailMap = new HashMap<>();
         ProductStatDto productStatDto = restTemplate.getForObject(orderURL, ProductStatDto.class);
         assert productStatDto != null;
@@ -190,6 +193,7 @@ public class ProductServiceImpl implements ProductService {
             for(OrderProductDto orderProduct : order.getProducts()) {
                 ProductResponseDto product = orderProduct.getProduct();
                 System.out.println(product.getName());
+                // Check if productStatDetail is already in the hash map
                 ProductStatDetail productStatDetail = productStatDetailMap.get(product.getId());
                 if(productStatDetail == null) {
                     productStatDetail = new ProductStatDetail(
@@ -209,9 +213,15 @@ public class ProductServiceImpl implements ProductService {
                     );
                     productStatDetailMap.put(product.getId(), productStatDetail);
                 }
-                productStatDetail.setTotalRevenue(productStatDetail.getTotalRevenue() + orderProduct.getQuantity() * product.getSellingPrice());
-                productStatDetail.setTotalProfit(productStatDetail.getTotalProfit() + orderProduct.getQuantity() * (product.getSellingPrice() - product.getPurchasePrice()));
-                productStatDetail.setQuantitySold(productStatDetail.getQuantitySold() + orderProduct.getQuantity());
+                productStatDetail.setTotalRevenue(
+                        productStatDetail.getTotalRevenue() + orderProduct.getQuantity() * product.getSellingPrice()
+                );
+                productStatDetail.setTotalProfit(
+                        productStatDetail.getTotalProfit() + orderProduct.getQuantity() * (product.getSellingPrice() - product.getPurchasePrice())
+                );
+                productStatDetail.setQuantitySold(
+                        productStatDetail.getQuantitySold() + orderProduct.getQuantity()
+                );
             }
         }
         productStatDto.setProductStatDetails(productStatDetailMap.values().stream().toList());
