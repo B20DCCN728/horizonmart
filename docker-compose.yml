@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  eureka-server:
+    image: b20dccn728/eureka-server-horizonmart-v1
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    image: b20dccn728/api-gateway-horizonmart-v1
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8762:8762"
+    depends_on:
+      - eureka-server
+
+  product-service:
+    image: b20dccn728/product-service-horizonmart-v1
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    ports:
+      - "8200:8200"
+    depends_on:
+      - eureka-server
+
+  order-service:
+    image: b20dccn728/order-service-horizonmart-v1
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8400:8400"
+    depends_on:
+      - eureka-server
+
+  user-service:
+    image: b20dccn728/user-service-horizonmart-v1
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+        - "8900:8900"
+    depends_on:
+        - eureka-server
+
+  supplier-service:
+    image: b20dccn728/supplier-service-horizonmart-v1
+    build:
+      context: ./supplier-service
+      dockerfile: Dockerfile
+    ports:
+        - "8300:8300"
+    depends_on:
+        - eureka-server
+
